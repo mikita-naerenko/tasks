@@ -558,3 +558,252 @@ function countSmileys(arr) {
 }
 
 console.log(countSmileys([':D',':~)',';~D',':)']));
+
+
+
+// LESSON 2 PART 2
+
+
+
+// Length of missing array
+// You get an array of arrays.
+// If you sort the arrays by their length, you will see, that their length-values are consecutive.
+// But one array is missing!
+
+
+// You have to write a method, that return the length of the missing array.
+
+function getLengthOfMissingArray(arrayOfArrays) {
+  let num = 0;
+  if (arrayOfArrays === null || arrayOfArrays.length === 0) return num
+  if (arrayOfArrays.some(el => el === null) || arrayOfArrays.some(el => el.length === 0)) return num
+  arrayOfArrays.sort((a,b) => {
+   return a.length - b.length
+  })
+  if (arrayOfArrays[0].length === 0) return num;
+  arrayOfArrays.forEach((el,i) => {
+    if(arrayOfArrays[i+1]) {
+      if (el.length + 1 !== arrayOfArrays[i+1].length) num = el.length + 1;
+    }
+  });
+  return num;
+}
+
+
+function twoSum(numbers, target) {
+  const arr = numbers.slice('');
+  const result = [];
+  for (let i = 0; i < numbers.length; i++) {
+    console.log(arr[0] + arr[1]);
+    arr[0] + arr[1] === target ? result.push(numbers.indexOf(arr[0]),numbers.lastIndexOf(arr[1])) : null;
+    let a = arr.shift();
+    arr.push(a)
+
+  }
+  return result
+}
+
+
+
+// function twoSum(numbers, target) {
+//   const obj = {};
+
+//   for (let i = 0; i < numbers.length; i++) {
+//     obj[numbers[i]] = i
+//   }
+//   console.log(obj);
+//   for (let i = 0; i < numbers.length; i++) {
+//     const diff = target - numbers[i];
+    
+//     if (obj[diff]) {
+//      return [i, obj[diff]]
+//     }
+//   }
+  
+// }
+
+
+// console.log(twoSum( [1,2,3,8,9,], 4));
+
+// Data Reverse
+function dataReverse(data) {
+  const result = new Array(data.length / 8);
+  let count = 0;
+  let i = 0;
+  for (let i = 0; i < data.length; i+= 8) {
+    result[count] = data.slice(i, i + 8)
+    count++
+
+  }
+  return result.reverse().flat()
+}
+
+
+
+console.log(dataReverse([1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,1,0,1,0,1,0]));
+
+
+// Proof Read
+
+function proofread (str) { 
+  result = str.toLowerCase().replace(/ie/g, 'ei').split('.')
+  result.forEach((el,i) => {
+    if (el.length > 0) {
+      result[i] = el.trim();
+      result[i] = result[i].replace(result[i][0], result[i][0].toUpperCase())
+    }
+  })
+   return result.join('. ').trim()
+  } 
+
+  console.log(proofread("ThiEr DEcIEt wAs INconcIEVablE. sHe SIeZeD thE moMENT."));
+
+
+// 
+// Format words into a sentence
+  function formatWords(words){
+    
+    if (words === null || words.length === 0) return '';
+    const arr = words.filter(el => el !== '')
+    if (arr.length === 1) return arr[0];
+    let result = '';
+    
+    arr.forEach((el,i) => {
+      if (arr[i + 1]) {
+        !arr[i + 2] ?  result += el : result += el + ', '
+      }
+      if (!arr[i + 1]) {
+        result+= ' and ' + el
+      }
+    })
+    return result
+  }
+
+  console.log(formatWords(['one', 'two', 'three', 'four']));
+
+
+// Simple Fun #79: Delete a Digit
+
+  function deleteDigit(n) {
+    const start = n.toString().split('')
+    const result = [];
+    for (let i = 0; i< start.length; i++) {
+      let step = start.slice('');
+      step.splice(i, 1)
+      result.push(+step.join(''))
+    }
+    return Math.max(...result)
+    
+  }
+
+  console.log(deleteDigit(152));
+
+// Equal Sides Of An Array
+
+  function findEvenIndex(arr){
+    let b = {};
+    let first;
+    let second;
+    for (let i = 0; i < arr.length; i++) {
+      b[arr[i]] = i;
+      first = arr.slice(0, i).length > 0 ? arr.slice(0, i).reduce((acc,el) => acc+=el) : 0
+      second = arr.slice(i+1, arr.length).length > 0 ? arr.slice(i+1, arr.length).reduce((acc,el) => acc+=el) : 0
+      if (first === second ) {
+        return b[arr[i]]
+      }
+    }
+    return -1
+}
+
+console.log(findEvenIndex([10,-80,10,10,15,35,20]));
+
+// Easy Balance Checking
+function balance(book) {
+  let result = '';
+  let totalExpense = [];
+  const arr = book.split('\n');
+  arr.forEach((el,i) => arr[i] = el.replace(/[!=:?;{},]/g, ''));
+  const clearArr = arr.filter(el => el)
+  let balance = +clearArr.shift();
+  clearArr.forEach((el,i) => {
+    let a = el.split(' ');
+    clearArr[i] = [a[0],a[1],+a[2]]
+  })
+  result += `Original Balance: ${balance.toFixed(2)}\r\n`
+  clearArr.forEach(el => {
+  balance = balance - el[2];
+  totalExpense.push(+el[2])
+  result += el[0] + ' ' + el[1] + ' ' + el[2].toFixed(2) + ' Balance ' + balance.toFixed(2) + '\r\n';
+  })
+  result += `Total expense  ${totalExpense.reduce((acc,el) => acc+=el).toFixed(2)}\r\n`;
+  result += `Average expense  ${(totalExpense.reduce((acc,el) => acc+=el) / totalExpense.length).toFixed(2)}`
+  return result
+}
+
+var b2=`1233.00
+125 Hardware;! 24.8?;
+123 Flowers 93.5
+127 Meat 120.90
+120 Picture 34.00
+124 Gasoline 11.00
+123 Photos;! 71.4?;
+122 Picture 93.5
+132 Tyres;! 19.00,?;
+129 Stamps 13.6
+129 Fruits{} 17.6
+129 Market;! 128.00?;
+121 Gasoline;! 13.6?;`
+console.log(balance(b2));
+
+
+// Birthday I - Cake
+
+function cake(x, y){
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const alphabetObject = {};
+  for (let i = 0; i < alphabet.length; i++) {
+    const letter = alphabet[i];
+    alphabetObject[letter] = i+1;
+  }
+  let percentage = 0;
+  for (let i = 0; i < y.length; i++) {
+    if (i % 2 === 0 ) {
+        percentage+= y[i].charCodeAt();
+    }
+    if (i % 2 !== 0 ) {
+        percentage+= alphabetObject[y[i]]
+      }
+  }
+  result = (percentage / x) * 100;
+  console.log(alphabetObject);
+  return result >= 70 ? "Fire!" : "That was close!";
+}
+
+console.log(cake(653, "jrfwrts"));
+
+
+// Element equals its index
+
+
+function indexEqualsValue(a) {
+  let start = 0;
+  let end = a.length - 1;
+  let middle;
+  let result = [];
+
+  while (start <= end) {
+    middle = Math.floor((end + start) / 2);
+    
+    if (middle === a[middle]) {
+      result.push(middle);
+      end = middle - 1
+    } else if (a[middle] > middle) {
+      end = middle - 1;
+    } else {
+      start = middle + 1
+    }
+  }
+  return result.length > 0 ? Math.min(...result) : -1;
+}
+
+console.log(indexEqualsValue([-5, 1, 2, 3, 4, 5, 7, 10, 15]));
