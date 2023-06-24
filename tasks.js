@@ -807,3 +807,369 @@ function indexEqualsValue(a) {
 }
 
 console.log(indexEqualsValue([-5, 1, 2, 3, 4, 5, 7, 10, 15]));
+
+
+
+
+function validParentheses(parens) {
+  const stack = [];
+  const pattern = '()'
+  let i = 0;
+if (parens.length == 0 ) return true;
+  while (parens.length > i) {
+    stack.push(parens[i]);
+    i++;
+    let end = stack[stack.length - 1];
+    let penultimate = stack[stack.length - 2];
+    let sum = penultimate + end;
+     if (pattern.includes(sum)) {
+      stack.pop();
+      stack.pop()
+     }
+  }
+  return stack.length === 0;
+}
+
+console.log(validParentheses("()()((()"));
+
+
+
+
+// Implement myReduce and myFilter
+
+
+Array.prototype.myFilter = function (cb) {
+  const result = [];
+  this.forEach(el => {
+    cb(el) ? result.push(el) : null
+  })
+  return result
+}
+
+Array.prototype.myReduce = function (cb,init) {
+  let acc = init ? init : this[0];
+  for (let i = init !== undefined ? 0 : 1; i < this.length; i++) {
+    acc = cb(acc,this[i])
+  }
+  
+  return acc;
+}
+
+console.log([1,2,2,4].myFilter((el => el === 2))) //[2,2]
+console.log([1,2,3,4].myReduce(((acc,cur) => acc += cur))) //[10]
+
+
+
+// objects
+
+// Complementary DNA
+function DNAStrand(dna){
+  const map = {
+    A: 'T',
+    C: 'G',
+    T: 'A',
+    G: 'C'
+  }
+  let result = '';
+  for (let i = 0; i < dna.length; i++) {
+    if (map[dna[i]]) {
+      result += map[dna[i]];
+    }
+    
+  }
+  return result;
+
+}
+
+console.log(DNAStrand("ATTGC"));
+
+// Convert A Hex String To RGB
+
+function hexStringToRGB(hexString) {
+  const r = parseInt(hexString.slice(1,3), 16);
+  const g = parseInt(hexString.slice(3,5), 16);
+  const b = parseInt(hexString.slice(5,7), 16);
+  return {r: r, g: g, b: b}
+}
+
+console.log(hexStringToRGB("#FF9933"));
+
+// Convert the score
+
+function scoreboard(string) {
+  const score = {
+    nil: '0',
+    one: '1',
+    two: '2',
+    three: '3',
+    four: '4',
+    five: '5',
+    six: '6',
+    seven: '7',
+    eight: '8',
+    nine: '9'
+  }
+  const result = [];
+  const arr = string.split(' ');
+  arr.forEach(el => {
+    if (score[el]) {
+      result.push(+score[el])
+    }
+  })
+  return result;
+}  
+
+console.log(scoreboard('The score is four nil'));
+
+// The Office I - Outed
+
+function outed(meet, boss){
+const count = Object.keys(meet).length;
+let value = Object.values(meet).reduce((acc,item) => acc += item);
+if (meet[boss]) value += meet[boss];
+if (value / count > 5) {
+  return 'Nice Work Champ!'
+} else {
+  return 'Get Out Now!'
+}
+}
+
+
+console.log(outed({'tim':0, 'jim':2, 'randy':0, 'sandy':7, 'andy':0, 'katie':5, 'laura':1, 'saajid':2, 'alex':3, 'john':2, 'mr':0}, 'laura'));
+
+
+
+// Who's Online?
+
+const whosOnline = (friends) => {
+  const result ={
+  };
+  friends.forEach(el => {
+    if(el.status === 'offline') {
+      result[el.status] ? result[el.status].push(el.username) : result[el.status] = [el.username];
+    } else if  
+    (el.status === 'online' && el.lastActivity > 10) {
+      result.away ? result.away.push(el.username) : result['away'] = [el.username];
+    } else {
+      result[el.status] ? result[el.status].push(el.username) : result[el.status] = [el.username];
+    }
+  })
+  return result;
+  }
+
+  console.log(whosOnline([{
+    username: 'David',
+    status: 'online',
+    lastActivity: 10
+  }, {
+    username: 'Lucy',
+    status: 'offline',
+    lastActivity: 22
+  }, {
+    username: 'Bob',
+    status: 'online',
+    lastActivity: 104
+  }]));
+
+// Duplicate Encoder
+  function duplicateEncode(word){
+    let result = '';
+    const dictionary = {};
+    
+    word.toLowerCase().split('').forEach(el => {
+      dictionary[el] ? dictionary[el] += 1 : dictionary[el] = 1
+    });
+    word.toLowerCase().split('').forEach(el => {
+      dictionary[el] > 1 ? result += ')' : result += '(';
+    });
+    return result;
+}
+console.log(duplicateEncode("Success"));
+
+
+
+// Anagram Detection
+var isAnagram = function(test, original) {
+  const dictionaryTest = {};
+  const dictionaryOriginal = {};
+  test.toLowerCase().split('').forEach(el => {
+    dictionaryTest[el] ? dictionaryTest[el] += 1 : dictionaryTest[el] = 1
+  });
+  original.toLowerCase().split('').forEach(el => {
+    dictionaryOriginal[el] ? dictionaryOriginal[el] += 1 : dictionaryOriginal[el] = 1
+  });
+  if (Object.keys(dictionaryOriginal).length !== Object.keys(dictionaryTest).length) {
+    return false;
+  }
+  for (let key in dictionaryOriginal) {
+    if (dictionaryOriginal[key] !== dictionaryTest[key]) {
+      return false
+    }
+  }
+  return true
+};
+
+console.log(isAnagram("TxFYNzOiRWeV", "TWYxFiOVeNR"));
+
+// 
+// Make a function that does arithmetic!
+function arithmetic(a, b, operator){
+  const dict = {
+    add: (a,b) => a + b,
+    subtract: (a,b) => a - b,
+    divide: (a,b) => a / b,
+    multiply: (a,b) => a * b
+  }
+
+  return dict[operator](a,b)
+}
+
+console.log(arithmetic(1, 2, "add"));
+
+
+// Pluck
+
+function pluck(objs, name) {
+  const result = [];
+  objs.forEach(el => {
+    result.push(el[name])
+  })
+  return result;
+}
+
+console.log(pluck([{a:1, b:3}, {a:2}], 'b'));
+
+// Remove duplicate words
+
+function removeDuplicateWords (s) {
+  const result = [];
+  s.split(' ').forEach(el => {
+    if (!result.some(item => item === el)) {
+      result.push(el)
+    }
+  })
+  return result.join(' ')
+}
+
+console.log(removeDuplicateWords('alpha beta beta gamma gamma gamma delta alpha beta beta gamma gamma gamma delta'));
+
+
+// Find the unique number
+
+function findUnique(numbers) {
+  const a = {};
+  while (numbers.length !== 0) {
+    let step = numbers.pop();
+    a[step] ? a[step] += 1 : a[step] = 1
+  }
+  for (let key in a) {
+    if (a[key] === 1) return +key;
+    
+    
+  }
+}
+
+console.log(findUnique([ 1, 8, 4, 4, 6, 1, 8 ]));
+
+// Coding Meetup #2 - Higher-Order Functions Series - Greet developers
+
+function greetDevelopers(list) {
+  const result = [];
+  list.forEach((el,i) => {
+    result.push(el);
+
+    result[i].greeting = `Hi ${el.firstName}, what do you like the most about ${el.language}?`
+  })
+  return result
+}
+console.log(greetDevelopers([
+  { firstName: 'Sofia', lastName: 'I.', country: 'Argentina', continent: 'Americas', age: 35, language: 'Java' },
+  { firstName: 'Lukas', lastName: 'X.', country: 'Croatia', continent: 'Europe', age: 35, language: 'Python' },
+  { firstName: 'Madison', lastName: 'U.', country: 'United States', continent: 'Americas', age: 32, language: 'Ruby' } 
+]));
+
+// My Language Skills
+function myLanguages(results) {
+  const result = [];
+  for (let [key, value] of Object.entries(results)) {
+    value >= 60 ? result.push([key]) : null
+  }
+  return result.sort((a,b) => results[b] - results[a]).flat();
+}
+
+console.log(myLanguages({"Java": 10, "Ruby": 80, "Python": 65}) );
+
+// Group Anagrams
+
+function groupAnagrams(words){
+  let interval = {};
+  words.forEach(el => {
+    if (interval[el.split('').sort().join('')]) {
+      interval[el.split('').sort().join('')].push(el);
+    } else {
+      interval[el.split('').sort().join('')] = [el];
+    }
+    
+  })
+      
+
+  return Object.values(interval);
+}
+
+console.log(groupAnagrams(["tsar", "rat", "tar", "star", "tars", "cheese"]));
+
+
+
+
+// Merged Objects.
+var a={1:'1',2:'2',3:'3'},
+    b={3:'4',5:'6',6:'7',7:'8'},
+    c={5:'9',8:'9',6:'12',23:'35'}
+    o=[a,b,c];
+function objConcat(o){
+  const result = {};
+  o.forEach(obj => {
+    for (let [key, value] of Object.entries(obj)) {
+      result[key] = value
+    }
+  })
+  return result;
+}
+console.log(objConcat(o));
+
+// From..To..Series #2: from arr1 to arr2. Find the most same sum value of pairs
+function findPair(arr1,arr2){
+  const dictionary = {};
+  const intervalValue = {};
+  const result = [];
+    for (let i = 0; i < arr1.length; i++) {
+      dictionary[i] = arr1[i] + arr2[i];
+    }
+ let step = Object.values(dictionary)
+ step.forEach(el => {
+  if (intervalValue[el]) {
+    intervalValue[el].push(el)
+  } else {
+    intervalValue[el] = [el]
+  }
+ })
+ let maxLength = 0;
+ let currentValue = 0;
+ Object.keys(intervalValue).forEach((key) => {
+  if (maxLength < intervalValue[key].length) {
+    maxLength = intervalValue[key].length;
+    currentValue = intervalValue[key][0];
+  }
+  if (maxLength === intervalValue[key].length && currentValue < intervalValue[key][0]) {
+    currentValue = intervalValue[key][0];
+  }
+});
+if (maxLength <= 1) return [];
+for (let key in Object.keys(dictionary)) {
+  if (dictionary[key] === currentValue) {
+    result.push([arr1[key],arr2[key]])
+  }
+}
+return result;
+}
+console.log(findPair([1,2,3,4,5],[9,8,0,0,0]));
