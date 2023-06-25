@@ -833,7 +833,99 @@ if (parens.length == 0 ) return true;
 console.log(validParentheses("()()((()"));
 
 
+// Evaluating prefix Polish notation
+function calculate(expression) {
+  const operations = {
 
+  }
+  return Number(expression);
+}
+console.log(calculate('+ 3 5'));
+
+// Run-length encoding
+var runLengthEncoding = function(str){
+  const result = [];
+  let count = 0;
+  for (let i = 0; i < str.length; i++) {
+    count++;
+    if (str[i] != str[i+1]) {
+      result.push([count, str[i]])
+      count = 0;
+    }
+  }
+  return result;
+}
+console.log(runLengthEncoding("hello world!"));
+
+// Is a number prime?
+function isPrime(num) {
+  if (num <= 1) return false;
+  const test = Math.floor(Math.sqrt(num))
+  for (let i = 2; i <= test; i++){
+    if (num % i === 0) return false;
+  }
+  return true
+}
+console.log(isPrime(4));
+
+// Zero-plentiful Array
+function zeroPlentiful(arr){
+  let count = 0;
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === 0) count++;
+    if (arr[i] !== 0 || arr[i+1]===undefined) {
+      result.push(count);
+      count = 0;
+    }
+   };
+  check = result.filter(el => el > 0);
+  return check.every(el => el >= 4) ? check.length : 0
+}
+console.log(zeroPlentiful([1, 0, 0, 0, 0, 5, 4, 0, 0, 0, 0, 0]));
+
+// Kebabize
+function kebabize(str) {
+  const result = str.replace(/[0-9]+/g, "").split('');
+  const reg = /[A-Z ]/g;
+  for (let i = 0; i < result.length; i++) {
+    if (result[i].match(reg)) {
+      const replace = '-' + result[i].toLowerCase();
+      result[i] = replace;
+    };
+  }
+  console.log(result);
+  if (result.at[0].includes('-')) result[0] = result[0].replace('-', '');
+  return result.join('');
+}
+console.log(kebabize('CamelsHaveThree3Humps'));
+
+
+// Word a10n (abbreviation)
+function abbreviate(string) {
+  let str = string.split(/(\b\w+\b|[^\w\s])/g);
+  console.log(str);
+  let result = '';
+  str.forEach((el,index) => {
+    if (el[el.length - 1] === '!') str[index].replace('!', ' !')
+    if( el.match(/-/) && el.length > 3) {
+       const interval = el.split('-');
+       interval.forEach((el,i) => {
+        if (el.length > 3) {
+          const replaceStr =  el[0] + (el.length - 2) + el[el.length -1];
+          interval[i] = replaceStr;
+        }
+         const joinedInterval =  interval.join('-');
+          str[index] = joinedInterval;
+       })
+    } else if (el.length > 3) {
+      const replaceStr =  el[0] + (el.length - 2) + el[el.length -1];
+      str[index] = replaceStr;
+    }
+  })
+  return str.join('')
+}
+console.log(abbreviate("elephant-rides are really fun!"));
 
 // Implement myReduce and myFilter
 
