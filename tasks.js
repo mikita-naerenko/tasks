@@ -1265,3 +1265,244 @@ for (let key in Object.keys(dictionary)) {
 return result;
 }
 console.log(findPair([1,2,3,4,5],[9,8,0,0,0]));
+
+
+// sort
+// Sort array by string length
+
+function sortByLength (array) {
+  return array.sort((a,b) => a.length - b.length)
+};
+
+console.log(sortByLength(["Telescopes", "Glasses", "Eyes", "Monocles"]));
+
+
+// Double Sort
+
+function dbSort(a){
+  const numbers = a.filter((item) => typeof item === 'number');
+  const strings = a.filter((item) => typeof item === 'string');
+  numbers.sort((a, b) => a - b);
+  strings.sort();
+  return numbers.concat(strings);
+  }
+
+  console.log(dbSort(["Banana", "Orange", "Apple", "Mango", 0, 2, 2]));
+
+
+  // Triple Sorting - Sort & Stringify a list by 3 attributes
+  class Student {
+    constructor(age, gpa, fullName) {
+      this.age = age;
+      this.gpa = gpa;
+      this.fullName = fullName;
+    };
+  };
+  var students = [new Student(23, 88, "David Goodman"), 
+                    new Student(25, 82, "Mark Rose"), 
+                    new Student(22, 90, "Jane Doe"),
+                    new Student(25, 90, "Jane Dane")];
+
+  function sort(students) {
+    let result = '';
+   students
+                    .sort((a,b) => a.age - b.age)
+                    .sort((a,b) => {
+                     return a.fullName.split(' ')[1].charCodeAt(0) - b.fullName.split(' ')[1].charCodeAt(0)
+                    })
+                    .sort((a,b) => b.gpa - a.gpa)
+  students.forEach((el,i) => students[i + 1] ? result += el.fullName += ',' : result += el.fullName )   
+  return result;
+  };
+  console.log(sort(students));
+
+  // Sort the odd
+  function sortArray(array) {
+    const result = new Array(array.length);
+    const intervalArr = array.filter(el => el % 2 !== 0).sort((a,b) => a - b)
+    array.forEach((el,i) => el % 2 === 0 ? result[i] = el : null);
+    for (let i = result.length - 1; i >= 0; i--) {
+      if (result[i] === undefined) {
+        let pop = intervalArr.pop();
+        result[i] = pop;
+      }
+    }
+    return result;
+  }
+  console.log(sortArray([5, 8, 6, 3, 4]));
+
+  // Sorting by bits
+  function sortByBit(arr) {
+    let min;
+    for (let i = 0; i < arr.length; i++) {
+      min = i;
+      for (let j = i + 1; j < arr.length; j++) {
+        let first = arr[min].toString(2).split('').reduce((acc,cur)=> acc+= +cur,0);
+        let second = arr[j].toString(2).split('').reduce((acc,cur)=> acc+= +cur,0);
+        if (first > second) {
+          min = j
+        }
+        else if (first === second && arr[min] > arr[j] ) {
+          min = j
+        } 
+      }
+      if (min !== i) {
+        [arr[i],arr[min]] = [arr[min],arr[i]]
+      }
+    }
+    return arr
+  }
+  console.log(sortByBit([9,4,5,3,5,7,2,56,8,2,6,8,0]));
+
+  // Alphabetized
+  function alphabetized(s) {
+    const dictionary = {};
+    s = s.replace(/[^a-zA-Z]/g, '').split('');
+    s.forEach(el => {
+      if (dictionary[el.toLowerCase()]) {
+        dictionary[el.toLowerCase()].push(el)
+      } else {
+        dictionary[el.toLowerCase()] = [el]
+      }
+    })
+    const arr = Object.values(dictionary);
+    arr.sort((a,b) => {
+      return a.join('').toLowerCase().charCodeAt(0) - b.join('').toLowerCase().charCodeAt(0)
+    })
+    return arr.flat().join('');
+  }
+  console.log(alphabetized("The Holy Bible"));
+
+
+  // Sort Strings by Most Contiguous Vowels
+  function sortStringsByVowels(strings){
+    const dictionary = {
+      "a": 'a', "e": 'e',"i": 'i',"o": 'o',"u": 'u',"A": 'A',"E": 'E',"I": 'I',"O": 'O',"U": 'U',
+    }
+    strings.sort((a,b) => {
+      let first = 0;
+      let firstMax = 0;
+      let second = 0;
+      let secondMax = 0;
+      for (let i = 0; i < a.length; i++) {
+        if (dictionary[a[i]]) {
+          first++
+        } else {
+          if (first > firstMax) {
+            firstMax = first;
+          }
+          first = 0
+        }
+      }
+      if (firstMax === 0) firstMax = first;
+      for (let i = 0; i < b.length; i++) {
+        if (dictionary[b[i]]) {
+          second++
+        } else {
+          if (second > secondMax) {
+            secondMax = second;
+          }
+          second = 0
+        }
+      }
+      if (secondMax === 0) secondMax = second;
+      console.log(firstMax,secondMax);
+      return secondMax - firstMax
+    })
+    return strings
+    }
+    console.log(sortStringsByVowels(["aa","eee","oo","iiii"]));
+
+
+    // Simple frequency sort
+    function solve(arr){
+      const map = {};
+      arr.forEach(el => {
+        if (map[el]) {
+          map[el].push(el)
+        } else {
+          map[el] = [el]
+        }
+      })
+      const result = Object.values(map)
+      result.sort((a,b) => {
+        if (a.length === b.length) return a[0] - b[0];
+        return b.length - a.length;
+      })
+      return [].concat(...result)
+    }
+    console.log(solve([2,3,5,3,7,9,5,3,7]));
+
+    // Convert Hash To An Array
+    function convertHashToArray(hash){
+      const result = [];
+      for (let key in hash) {
+        result.push([`${key}`, hash[key]])
+      }
+      return result.sort((a, b) => a[0].localeCompare(b[0]))
+    }
+    console.log(convertHashToArray({name: 'Jeremy', age: 24, role: 'Software Engineer'}));
+
+
+
+    
+    // Sports League Table Ranking
+  function computeRanks(number, games) {
+    let min;
+    const scoreTable = Array.from({ length: number }, () => ({ points: 0, goals: 0, against: 0, team: 0, rank: 0}));
+    for (let i = 0; i < number; i++) {
+      scoreTable[i].team = i + 1;
+    }
+    games.forEach(game => {
+          if (game[2] > game[3]) scoreTable[game[0]].points += 2;
+          if (game[3] > game[2]) scoreTable[game[1]].points += 2;
+          if (game[2] === game[3]) {
+            scoreTable[game[0]].points += 1;
+            scoreTable[game[1]].points += 1;
+          }
+          scoreTable[game[0]].goals += game[2];
+          scoreTable[game[0]].against += game[3];
+          scoreTable[game[1]].goals += game[3];
+          scoreTable[game[1]].against += game[2];
+
+    })
+    scoreTable.sort((a, b) => {
+      if (a.points !== b.points) {
+        return b.points - a.points;
+      }
+      const gdA = a.goals - a.against;
+      const gdB = b.goals - b.against;
+      if (gdA !== gdB) {
+        return gdB - gdA;
+      }
+      return b.goals - a.goals;
+    });
+    let rank = 1;
+    scoreTable.forEach((team, index) => {
+      if (index > 0) {
+        const prevTeam = scoreTable[index - 1];
+        if (
+          team.points === prevTeam.points &&
+          team.goals === prevTeam.goals &&
+          (team.goals - team.against) === (prevTeam.goals - prevTeam.against)
+        ) {
+          team.rank = prevTeam.rank;
+        } else {
+          team.rank = rank;
+        }
+      } else {
+        team.rank = rank;
+      }
+      rank++;
+    });
+    const results = new Array(number);
+    scoreTable.forEach(team => {
+      results[team.team - 1] = team.rank
+    })
+    return results;
+}
+console.log(computeRanks(4, 
+  [[0, 3, 1, 1],
+   [1, 2, 2, 2],
+   [1, 3, 2, 0],
+   [2, 0, 2, 0]])); 
